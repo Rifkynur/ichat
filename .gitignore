@@ -1,0 +1,20 @@
+# Mengabaikan folder node_modules
+node_modules/
+
+# Mengabaikan file lingkungan
+.env
+
+# Mengabaikan log
+*.log
+
+# Build atau dist folder
+dist/
+build/
+
+# Folder cache editor
+.vscode/
+.idea/
+
+# File sistem operasi
+.DS_Store
+Thumbs.db
