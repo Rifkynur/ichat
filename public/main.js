@@ -34,6 +34,7 @@ socket.on("chat-message", (data) => {
 });
 
 const addMessageToContainer = (isOwnMessage, data) => {
+  //   clearFeedback();
   const element = ` <li class="${isOwnMessage ? "message-right" : "message-left"}">
                 <p class="message">${data.message}
                     <span>${data.name} ▪ ${moment(data.datTime).fromNow()}</span>
@@ -47,6 +48,37 @@ const scrollToBottom = () => {
   messageContainer.scrollTop = messageContainer.scrollHeight;
 };
 
+messageInput.addEventListener("focus", (e) => {
+  socket.emit("feedback", {
+    feedback: `${nameInput.value} is typing`,
+  });
+});
+messageInput.addEventListener("keypress", (e) => {
+  socket.emit("feedback", {
+    feedback: `${nameInput.value} is typing`,
+  });
+});
+messageInput.addEventListener("blur", (e) => {
+  socket.emit("feedback", {
+    feedback: "",
+  });
+});
+
 socket.on("client-total", (data) => {
   clientTotal.textContent = `Total Client ${data}`;
 });
+
+socket.on("feedback", (data) => {
+  //   clearFeedback();
+  const element = `<li class="message-feedback">
+                <p class="feedback" id="feedback">${data.feedback}</p>
+            </li>`;
+
+  messageContainer.innerHTML += element;
+});
+
+// const clearFeedback = () => {
+//   document.querySelectorAll("li.message-feedback").forEach((el) => {
+//     el.parentNode.removeChild(el);
+//   });
+// };
